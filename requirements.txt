@@ -1,0 +1,6 @@
+Flask==1.1.2
+Flask_Caching==2.0.1
+keras==2.11.0
+mediapipe==0.9.0.1
+numpy==1.24.1
+opencv_python==4.7.0.68
