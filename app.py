@@ -25,7 +25,7 @@ app = Flask(__name__)
 cache = Cache(app)
 app.config['UPLOAD_FOLDER'] = PEOPLE_FOLDER
 
-model = load_model("model.h5")
+model = load_model("modelResNet50.h5")
 @app.after_request
 def add_header(response):
     """
@@ -68,17 +68,9 @@ def predict():
         
         for hand_no, hand_landmarks in enumerate(results.multi_hand_landmarks):
             
-            mp_drawing.draw_landmarks(
-                annotated_image,
-                hand_landmarks,
-                mp_hands.HAND_CONNECTIONS,
-                mp_drawing_styles.get_default_hand_landmarks_style(),
-                mp_drawing_styles.get_default_hand_connections_style())
-            
             xmin, ymin, xmax, ymax = get_bbox_coordinates(hand_landmarks, image.shape)
-            
-            print (xmin, ymin, xmax, ymax)
-            annotated_image = annotated_image[ymin-30:ymax+30, xmin-30:xmax+30]
+
+            image_crop = image[ymin-30:ymax+30, xmin-30:xmax+30]
 
     image = cv2.resize(annotated_image, (224, 224), cv2.INTER_AREA)
     cv2.imwrite(f'static\hands\image.jpg', image)
